@@ -1,0 +1,5 @@
+﻿Opening leaf_model_backup.h5
+Layer efficientnetb4 node 0 is not a list: <class 'dict'> -> {'args': [{'class_name': '__keras_tensor__', 'config': {'shape': [None, 160, 160, 3], 'dtype': 'float32', 'keras_history': ['input_layer_1', 0, 0]}}], 'kwargs': {'training': False, 'mask': None}}
+Layer global_average_pooling2d node 0 is not a list: <class 'dict'> -> {'args': [{'class_name': '__keras_tensor__', 'config': {'shape': [None, 5, 5, 1792], 'dtype': 'float32', 'keras_history': ['efficientnetb4', 0, 0]}}], 'kwargs': {}}
+Layer dropout node 0 is not a list: <class 'dict'> -> {'args': [{'class_name': '__keras_tensor__', 'config': {'shape': [None, 1792], 'dtype': 'float32', 'keras_history': ['global_average_pooling2d', 0, 0]}}], 'kwargs': {'training': False}}
+Layer dense node 0 is not a list: <class 'dict'> -> {'args': [{'class_name': '__keras_tensor__', 'config': {'shape': [None, 1792], 'dtype': 'float32', 'keras_history': ['dropout', 0, 0]}}], 'kwargs': {}}

@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}Live Facility Map | Krushi Sakha{% endblock %}
+
+{% block extra_css %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+    .map-wrap {
+        padding: 40px 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 3fr 1.2fr;
+        gap: 30px;
+        min-height: calc(100vh - 120px);
+    }
+
+    .map-card {
+        background: rgba(26,74,40,.35);
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        padding: 16px;
+        box-shadow: 0 4px 32px rgba(0,0,0,.4);
+        backdrop-filter: blur(12px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    #map {
+        flex: 1;
+        width: 100%;
+        border-radius: 12px;
+        min-height: 500px;
+        background: #111; /* fallback before tiles load */
+    }
+
+    .side-card {
+        background: rgba(26,74,40,.35);
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        padding: 24px;
+        box-shadow: 0 4px 32px rgba(0,0,0,.4);
+        backdrop-filter: blur(12px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .side-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--text-bright);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+        padding: 12px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .legend-icon {
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+    .icon-storage { background: rgba(56, 188, 248, 0.2); border: 2px solid #38BDF8; color: #38BDF8; }
+    .icon-rent { background: rgba(245, 158, 11, 0.2); border: 2px solid #F59E0B; color: #F59E0B; }
+
+    /* FILTERS */
+    .filter-group {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        background: rgba(0,0,0,0.2);
+        padding: 6px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .filter-btn {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--grey-mid);
+        font-family: 'Nunito Sans', sans-serif;
+        font-weight: 700;
+        font-size: 0.85rem;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .filter-btn:hover { color: var(--text-bright); background: rgba(255,255,255,0.05); }
+    .filter-btn.active { background: var(--orange); color: #fff; box-shadow: 0 4px 12px rgba(232,98,26,.3); }
+
+    .facility-list {
+        margin-top: 10px;
+        overflow-y: auto;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .facility-item {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 12px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .facility-item:hover {
+        background: rgba(255,255,255,0.08);
+        border-color: var(--green-neon);
+        transform: translateX(4px);
+    }
+
+    .fac-name { font-weight: 700; color: var(--text-bright); margin-bottom: 4px; }
+    .fac-type { font-size: 0.8rem; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
+    .type-s { color: #38BDF8; }
+    .type-r { color: #F59E0B; }
+    .fac-desc { font-size: 0.9rem; color: var(--text); }
+
+    /* Custom Leaflet Popup styling for Dark Theme */
+    .leaflet-popup-content-wrapper {
+        background: rgba(13, 40, 24, 0.95) !important;
+        color: #ECFDF5 !important;
+        border: 1px solid rgba(34, 197, 94, 0.4) !important;
+        border-radius: 12px !important;
+        backdrop-filter: blur(10px) !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+    }
+    .leaflet-popup-tip {
+        background: rgba(13, 40, 24, 0.95) !important;
+        border: 1px solid rgba(34, 197, 94, 0.4) !important;
+    }
+    .popup-title {
+        font-weight: 800; font-family: 'Syne', sans-serif; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 10px; margin-top:0;
+    }
+    .popup-info strong { color: var(--green-neon); }
+    
+    @media (max-width: 900px) {
+        .map-wrap { grid-template-columns: 1fr; }
+        #map { min-height: 400px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="map-wrap">
+    
+    <!-- LEFT: MAP -->
+    <div class="map-card">
+        <div id="map"></div>
+    </div>
+
+    <!-- RIGHT: FACILITIES LIST -->
+    <div class="side-card">
+        <div class="side-title">🗺️ Facility Radar</div>
+        <p style="font-size: 0.95rem; color: var(--text); margin-bottom: 20px;">
+            Find nearby cold storage facilities to preserve your harvest or rent farming equipment by the hour.
+        </p>
+
+        <!-- Legend -->
+        <div class="legend-item" style="margin-bottom: 24px;">
+            <div class="legend-icon icon-storage">❄️</div>
+            <div>
+                <strong style="display:block; color: #ECFDF5;">Cold Storage</strong>
+                <span style="font-size: 0.85rem; color: var(--text);">Preserve perishables</span>
+            </div>
+        </div>
+        <div class="legend-item" style="margin-bottom: 24px;">
+            <div class="legend-icon icon-rent">🚜</div>
+            <div>
+                <strong style="display:block; color: #ECFDF5;">Equipment Rent</strong>
+                <span style="font-size: 0.85rem; color: var(--text);">Tractors & Harvesters</span>
+            </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-group">
+            <button class="filter-btn active" id="btn-all" onclick="filterMap('all')">All</button>
+            <button class="filter-btn" id="btn-storage" onclick="filterMap('storage')">❄️ Storage</button>
+            <button class="filter-btn" id="btn-rent" onclick="filterMap('rent')">🚜 Rent</button>
+        </div>
+
+        <!-- Dynamic List -->
+        <div class="facility-list" id="facilityList">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+    // 1. Initialize Map (Centered around Central India to show all mock data)
+    const map = L.map('map').setView([22.5937, 78.9629], 5);
+
+    // 2. Add Dark Theme Tile Layer (CartoDB Dark Matter)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+    }).addTo(map);
+
+    // 3. Custom Icons
+    const storageIcon = L.divIcon({
+        html: '<div style="background:#38BDF8; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 15px #38BDF8; font-size:16px;">❄️</div>',
+        className: 'custom-icon',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
+
+    const rentIcon = L.divIcon({
+        html: '<div style="background:#F59E0B; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 15px #F59E0B; font-size:16px;">🚜</div>',
+        className: 'custom-icon',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
+
+    // 4. Load Data from Backend
+    const facilities = JSON.parse('{{ facilities | safe }}');
+    const listContainer = document.getElementById('facilityList');
+
+    // 5. Layer Group to hold dynamic markers
+    const markerGroup = L.layerGroup().addTo(map);
+
+    // 6. Populate Function
+    function renderMap(filterType) {
+        // Clear existing markers and list
+        markerGroup.clearLayers();
+        listContainer.innerHTML = '';
+
+        facilities.forEach(fac => {
+            // Check filter
+            if (filterType !== 'all' && fac.type !== filterType) return;
+
+            // Map Marker
+            const icon = fac.type === 'storage' ? storageIcon : rentIcon;
+            const marker = L.marker([fac.lat, fac.lng], { icon: icon });
+            marker.addTo(markerGroup);
+            
+            // Popup Content
+            let popupHtml = `<h4 class="popup-title">${fac.name}</h4>`;
+            if (fac.type === 'storage') {
+                popupHtml += `<div class="popup-info">🌡️ Available Capacity: <strong>${fac.capacity}</strong></div>`;
+            } else {
+                popupHtml += `<div class="popup-info">🛠️ Available: <strong>${fac.equipment}</strong></div>`;
+            }
+            marker.bindPopup(popupHtml);
+
+            // Side List Item
+            const item = document.createElement('div');
+            item.className = 'facility-item';
+            
+            const typeClass = fac.type === 'storage' ? 'type-s' : 'type-r';
+            const typeLabel = fac.type === 'storage' ? '❄️ Cold Storage' : '🚜 Equipment';
+            const desc = fac.type === 'storage' ? `Capacity: ${fac.capacity}` : `Items: ${fac.equipment}`;
+
+            item.innerHTML = `
+                <div class="fac-type ${typeClass}">${typeLabel}</div>
+                <div class="fac-name">${fac.name}</div>
+                <div class="fac-desc">${desc}</div>
+            `;
+            
+            // Click to focus map marker
+            item.addEventListener('click', () => {
+                map.flyTo([fac.lat, fac.lng], 13, { duration: 1.5 });
+                marker.openPopup();
+            });
+
+            listContainer.appendChild(item);
+        });
+    }
+
+    // Interactive button filtering
+    function filterMap(type) {
+        // Render layers
+        renderMap(type);
+        
+        // Update active class
+        document.getElementById('btn-all').classList.remove('active');
+        document.getElementById('btn-storage').classList.remove('active');
+        document.getElementById('btn-rent').classList.remove('active');
+        document.getElementById(`btn-${type}`).classList.add('active');
+
+        // Optional: auto-fly map back to center
+        map.flyTo([22.5937, 78.9629], 5, { duration: 1 });
+    }
+
+    // Initial load
+    renderMap('all');
+</script>
+{% endblock %}

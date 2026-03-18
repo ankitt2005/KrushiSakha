@@ -1,0 +1,255 @@
+﻿venv\Scripts\python : 
+2026-02-27 
+16:59:34.872282: I ten
+sorflow/core/util/port
+.cc:113] oneDNN 
+custom operations are 
+on. You may see 
+slightly different 
+numerical results due 
+to floating-point 
+round-off errors from 
+different computation 
+orders. To turn them 
+off, set the 
+environment variable `
+TF_ENABLE_ONEDNN_OPTS=
+0`.
+At line:1 char:1
++ venv\Scripts\python 
+test_inbound.py > 
+test_inbound.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (2026-02-27   
+  16:5...ONEDNN_OP    
+TS=0`.:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+WARNING:tensorflow:Fro
+m C:\Users\bpbis\OneDr
+ive\Desktop\KrushiSakh
+a\HK15_Byte-Busters_Ag
+rimitra\venv\lib\site-
+packages\keras\src\los
+ses.py:2976: The name 
+tf.losses.sparse_softm
+ax_cross_entropy is 
+deprecated. Please 
+use tf.compat.v1.losse
+s.sparse_softmax_cross
+_entropy instead.
+
+WARNING:tensorflow:Fro
+m C:\Users\bpbis\OneDr
+ive\Desktop\KrushiSakh
+a\HK15_Byte-Busters_Ag
+rimitra\venv\lib\site-
+packages\keras\src\bac
+kend.py:1398: The 
+name tf.executing_eage
+rly_outside_functions 
+is deprecated. Please 
+use tf.compat.v1.execu
+ting_eagerly_outside_f
+unctions instead.
+
+2026-02-27 
+16:59:45.090682: I ten
+sorflow/core/platform/
+cpu_feature_guard.cc:1
+82] This TensorFlow 
+binary is optimized 
+to use available CPU 
+instructions in 
+performance-critical 
+operations.
+To enable the 
+following 
+instructions: SSE 
+SSE2 SSE3 SSE4.1 
+SSE4.2 AVX2 AVX_VNNI 
+FMA, in other 
+operations, rebuild 
+TensorFlow with the 
+appropriate compiler 
+flags.
+[
+  {
+    "module": "keras.layers",
+    "class_name": "InputLayer",
+    "config": {
+      "batch_input_shape": [
+        null,
+        10
+      ],
+      "dtype": "float32",
+      "sparse": false,
+      "ragged": false,
+      "name": "input1"
+    },
+    "registered_name": null,
+    "name": "input1",
+    "inbound_nodes": []
+  },
+  {
+    "module": "keras.layers",
+    "class_name": "InputLayer",
+    "config": {
+      "batch_input_shape": [
+        null,
+        10
+      ],
+      "dtype": "float32",
+      "sparse": false,
+      "ragged": false,
+      "name": "input2"
+    },
+    "registered_name": null,
+    "name": "input2",
+    "inbound_nodes": []
+  },
+  {
+    "module": "keras.layers",
+    "class_name": "Dense",
+    "config": {
+      "name": "dense1",
+      "trainable": true,
+      "dtype": "float32",
+      "units": 10,
+      "activation": "linear",
+      "use_bias": true,
+      "kernel_initializer": {
+        "module": "keras.initializers",
+        "class_name": "GlorotUniform",
+        "config": {
+          "seed": null
+        },
+        "registered_name": null
+      },
+      "bias_initializer": {
+        "module": "keras.initializers",
+        "class_name": "Zeros",
+        "config": {},
+        "registered_name": null
+      },
+      "kernel_regularizer": null,
+      "bias_regularizer": null,
+      "activity_regularizer": null,
+      "kernel_constraint": null,
+      "bias_constraint": null
+    },
+    "registered_name": null,
+    "build_config": {
+      "input_shape": [
+        null,
+        10
+      ]
+    },
+    "name": "dense1",
+    "inbound_nodes": [
+      [
+        [
+          "input1",
+          0,
+          0,
+          {}
+        ]
+      ]
+    ]
+  },
+  {
+    "module": "keras.layers",
+    "class_name": "Dense",
+    "config": {
+      "name": "dense2",
+      "trainable": true,
+      "dtype": "float32",
+      "units": 10,
+      "activation": "linear",
+      "use_bias": true,
+      "kernel_initializer": {
+        "module": "keras.initializers",
+        "class_name": "GlorotUniform",
+        "config": {
+          "seed": null
+        },
+        "registered_name": null
+      },
+      "bias_initializer": {
+        "module": "keras.initializers",
+        "class_name": "Zeros",
+        "config": {},
+        "registered_name": null
+      },
+      "kernel_regularizer": null,
+      "bias_regularizer": null,
+      "activity_regularizer": null,
+      "kernel_constraint": null,
+      "bias_constraint": null
+    },
+    "registered_name": null,
+    "build_config": {
+      "input_shape": [
+        null,
+        10
+      ]
+    },
+    "name": "dense2",
+    "inbound_nodes": [
+      [
+        [
+          "input2",
+          0,
+          0,
+          {}
+        ]
+      ]
+    ]
+  },
+  {
+    "module": "keras.layers",
+    "class_name": "Add",
+    "config": {
+      "name": "add1",
+      "trainable": true,
+      "dtype": "float32"
+    },
+    "registered_name": null,
+    "build_config": {
+      "input_shape": [
+        [
+          null,
+          10
+        ],
+        [
+          null,
+          10
+        ]
+      ]
+    },
+    "name": "add1",
+    "inbound_nodes": [
+      [
+        [
+          "dense1",
+          0,
+          0,
+          {}
+        ],
+        [
+          "dense2",
+          0,
+          0,
+          {}
+        ]
+      ]
+    ]
+  }
+]

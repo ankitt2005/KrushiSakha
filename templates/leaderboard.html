@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}Community Leaderboard | Krushi Sakha{% endblock %}
+
+{% block extra_css %}
+<style>
+    .leaderboard-wrap {
+        padding: 60px 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+        min-height: calc(100vh - 120px);
+    }
+
+    .lb-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .lb-header h1 {
+        font-family: 'Syne', sans-serif;
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #F59E0B, #E8621A);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+
+    .lb-header p {
+        color: var(--grey-mid);
+        font-size: 1.1rem;
+    }
+
+    .lb-card {
+        background: rgba(26, 74, 40, 0.35); /* Deep green glass */
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        backdrop-filter: blur(16px);
+        overflow: hidden;
+    }
+
+    .lb-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .lb-table th {
+        text-align: left;
+        padding: 24px;
+        font-family: 'Syne', sans-serif;
+        font-weight: 800;
+        font-size: 0.9rem;
+        color: var(--grey-mid);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .lb-table td {
+        padding: 18px 24px;
+        border-bottom: 1px solid rgba(255,255,255,0.03);
+        vertical-align: middle;
+        transition: background 0.2s;
+    }
+
+    .lb-table tr:last-child td { border-bottom: none; }
+    .lb-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+    .rank-cell { width: 80px; text-align: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; }
+    
+    .rank-1 { color: #FFD700; text-shadow: 0 0 15px rgba(255,215,0,0.6); font-size: 1.5rem; }
+    .rank-2 { color: #C0C0C0; text-shadow: 0 0 15px rgba(192,192,192,0.6); font-size: 1.4rem; }
+    .rank-3 { color: #CD7F32; text-shadow: 0 0 15px rgba(205,127,50,0.6); font-size: 1.3rem; }
+    .rank-other { color: var(--grey-mid); }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .user-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Syne', sans-serif;
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #fff;
+    }
+
+    /* Top 3 Avatars glow */
+    tr:nth-child(1) .user-avatar { background: linear-gradient(135deg, #FFD700, #F59E0B); box-shadow: 0 0 20px rgba(255,215,0,0.4); }
+    tr:nth-child(2) .user-avatar { background: linear-gradient(135deg, #E8E8E8, #A0A0A0); box-shadow: 0 0 20px rgba(192,192,192,0.4); color: #000; }
+    tr:nth-child(3) .user-avatar { background: linear-gradient(135deg, #E69A5C, #CD7F32); box-shadow: 0 0 20px rgba(205,127,50,0.4); }
+
+    .user-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-bright);
+    }
+
+    .badge-pill {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .badge-gold   { background: rgba(255,215,0,0.15); color: #FFD700; border: 1px solid rgba(255,215,0,0.3); }
+    .badge-silver { background: rgba(192,192,192,0.15); color: #E8E8E8; border: 1px solid rgba(192,192,192,0.3); }
+    .badge-bronze { background: rgba(205,127,50,0.15); color: #CD7F32; border: 1px solid rgba(205,127,50,0.3); }
+    .badge-novice { background: rgba(255,255,255,0.05); color: var(--grey-mid); border: 1px solid rgba(255,255,255,0.1); }
+
+    .coins-cell {
+        text-align: right;
+        font-family: 'Syne', sans-serif;
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: #F59E0B;
+    }
+
+    /* Confetti Canvas */
+    #confetti {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<canvas id="confetti"></canvas>
+
+<div class="leaderboard-wrap">
+    <div class="lb-header">
+        <h1>🥇 Hall of Fame</h1>
+        <p>Recognizing the top Krushi Sakha contributors & farmers.</p>
+    </div>
+
+    <div class="lb-card">
+        <table class="lb-table">
+            <thead>
+                <tr>
+                    <th style="text-align:center;">Rank</th>
+                    <th>Farmer</th>
+                    <th>Status Tier</th>
+                    <th style="text-align:right;">Total Credits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in top_users %}
+                <tr>
+                    <!-- Rank -->
+                    <td class="rank-cell">
+                        {% if loop.index == 1 %}<span class="rank-1">1</span>
+                        {% elif loop.index == 2 %}<span class="rank-2">2</span>
+                        {% elif loop.index == 3 %}<span class="rank-3">3</span>
+                        {% else %}<span class="rank-other">{{ loop.index }}</span>{% endif %}
+                    </td>
+                    
+                    <!-- User Info -->
+                    <td>
+                        <div class="user-info">
+                            <div class="user-avatar">{{ (user.Email or user.name or 'U')[0] | upper }}</div>
+                            <div class="user-name">{{ (user.Email.split('@')[0] if user.Email else user.name) or 'Farmer' }}</div>
+                        </div>
+                    </td>
+
+                    <!-- Dynamic Badges -->
+                    <td>
+                        {% if user.coins >= 500 %}
+                            <span class="badge-pill badge-gold">🏅 Gold Tier</span>
+                        {% elif user.coins >= 200 %}
+                            <span class="badge-pill badge-silver">🥈 Silver Tier</span>
+                        {% elif user.coins >= 50 %}
+                            <span class="badge-pill badge-bronze">🥉 Bronze Tier</span>
+                        {% else %}
+                            <span class="badge-pill badge-novice">🌱 Novice</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Coins -->
+                    <td class="coins-cell">
+                        🪙 {{ user.coins }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Simple Confetti script for the #1 player load effect -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // slight delay, then shoot confetti!
+        setTimeout(() => {
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#F59E0B', '#FFD700', '#3A7D44', '#ffffff']
+            });
+        }, 500);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Chatbot – Krushi Sakha{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+    .chat-container {
+        max-width: 800px;
+        margin: 3rem auto;
+        background: var(--grey-dark);
+        border: 1px solid var(--grey-mid);
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 70vh;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .chat-header {
+        padding: 1rem 1.5rem;
+        background: linear-gradient(135deg, var(--green-light), var(--green));
+        color: white;
+        font-family: 'Syne', sans-serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        border-bottom: 3px solid var(--orange);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .chat-body {
+        flex: 1;
+        padding: 1.5rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background: var(--grey-dark);
+    }
+    .message {
+        max-width: 80%;
+        padding: 0.8rem 1.2rem;
+        border-radius: 16px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        position: relative;
+    }
+    .message.bot {
+        align-self: flex-start;
+        background: rgba(255,255,255,0.05);
+        color: rgba(255,255,255,0.9);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-bottom-left-radius: 4px;
+    }
+    .message.user {
+        align-self: flex-end;
+        background: rgba(232,98,26,0.15);
+        color: var(--orange-light);
+        border: 1px solid rgba(232,98,26,0.3);
+        border-bottom-right-radius: 4px;
+    }
+    .chat-footer {
+        padding: 1rem 1.5rem;
+        background: rgba(0,0,0,0.2);
+        border-top: 1px solid var(--grey-mid);
+        display: flex;
+        gap: 0.8rem;
+    }
+    .chat-input {
+        flex: 1;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--grey-mid);
+        color: white;
+        padding: 0.8rem 1.2rem;
+        border-radius: 30px;
+        outline: none;
+        font-family: 'Nunito Sans', sans-serif;
+    }
+    .chat-input:focus {
+        border-color: var(--orange);
+    }
+    .chat-submit {
+        background: var(--orange);
+        color: white;
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+    }
+    .chat-submit:hover {
+        background: var(--orange-light);
+        transform: scale(1.05);
+    }
+    .typing-indicator {
+        display: none;
+        align-self: flex-start;
+        color: var(--grey-mid);
+        font-size: 0.85rem;
+        font-style: italic;
+        padding-left: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+    <div class="chat-header">
+        <span>🤖</span> Krushi Sakha AI Assistant
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="message bot">
+            Namaste! 👋 I am <strong>Krushi Sakha</strong>, your farming assistant. How can I help you today? You can ask me about crops, soil, fertilizers, government schemes, market prices, or any farming question.
+        </div>
+    </div>
+    <div class="typing-indicator" id="typingIndicator">Krushi Sakha is typing...</div>
+    <div class="chat-footer">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+        <button class="chat-submit" onclick="sendMessage()">➤</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    function sendMessage() {
+        const inputField = document.getElementById('chatInput');
+        const text = inputField.value.trim();
+        if (!text) return;
+
+        // User message
+        appendMessage('user', text);
+        inputField.value = '';
+
+        // Show typing
+        document.getElementById('typingIndicator').style.display = 'block';
+
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: text })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('typingIndicator').style.display = 'none';
+            if(data.error) {
+                appendMessage('bot', "Sorry, I am having trouble connecting right now.");
+            } else {
+                appendMessage('bot', data.reply);
+            }
+        })
+        .catch(error => {
+            document.getElementById('typingIndicator').style.display = 'none';
+            appendMessage('bot', "Network error occurred.");
+            console.error('Error:', error);
+        });
+    }
+
+    function appendMessage(sender, text) {
+        const body = document.getElementById('chatBody');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${sender}`;
+        if (sender === 'bot') {
+            msgDiv.innerHTML = marked.parse(text); 
+        } else {
+            msgDiv.textContent = text;
+        }
+        body.appendChild(msgDiv);
+        body.scrollTop = body.scrollHeight; // Auto-scroll to bottom
+    }
+</script>
+{% endblock %}

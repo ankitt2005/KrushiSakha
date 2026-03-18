@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Mate - Government Schemes for Farmers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        :root {
+            --primary-orange: #FF6B35;
+            --secondary-orange: #F7931E;
+            --indian-green: #138808;
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --navy: #000080;
+        }
+
+        .schemes-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff8dc 0%, #f0e68c 30%, #daa520 100%);
+            position: relative;
+        }
+
+        .indian-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, #ff9933 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, #138808 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--white) 0%, #fff5ee 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            position: relative;
+            border: 3px solid var(--saffron);
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 153, 51, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            background: linear-gradient(135deg, var(--white) 0%, #fff5ee 100%);
+            border-radius: 25px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid var(--saffron);
+            z-index: 10;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: var(--indian-green);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--indian-green), #2E7D32);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .lang-btn:hover {
+            background: var(--saffron);
+            color: white;
+        }
+
+        .header-controls {
+            position: absolute;
+            top: 30px;
+            right: 250px;
+            z-index: 100;
+        }
+
+        .login-btn {
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--indian-green), #2E7D32);
+            color: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .login-btn:hover {
+            background: var(--saffron);
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--indian-green), var(--saffron));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-right: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .site-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--indian-green), var(--saffron));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .image-slider-section {
+            background: linear-gradient(135deg, white 0%, #fff8f0 100%);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 3px solid var(--saffron);
+            height: fit-content;
+        }
+
+        .slider-title {
+            font-size: 1.5rem;
+            color: var(--indian-green);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .image-slider {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .slider-container {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 300%;
+        }
+
+        .slide {
+            width: 33.333%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .slide-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--indian-green);
+            transform: scale(1.3);
+        }
+
+        .notifications-sidebar {
+            background: linear-gradient(135deg, white 0%, #fff8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: fit-content;
+            border: 2px solid var(--saffron);
+        }
+
+        .notifications-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--saffron);
+        }
+
+        .notifications-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--indian-green), var(--saffron));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            margin-right: 12px;
+        }
+
+        .notifications-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--indian-green);
+        }
+
+        .notification-item {
+            display: flex;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, #fff8dc 100%);
+            border-radius: 10px;
+            border-left: 4px solid var(--indian-green);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .notification-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .notification-date {
+            min-width: 45px;
+            text-align: center;
+            background: var(--saffron);
+            color: white;
+            border-radius: 8px;
+            padding: 6px;
+            margin-right: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: var(--indian-green);
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .new-badge {
+            background: var(--primary-orange);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-left: 6px;
+        }
+
+        .schemes-section {
+            margin-top: 50px;
+        }
+
+        .schemes-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--white) 0%, #fff5ee 100%);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid var(--saffron);
+        }
+
+        .schemes-header h2 {
+            color: var(--indian-green);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .schemes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .scheme-card {
+            background: linear-gradient(135deg, white 0%, #fff8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-left: 5px solid var(--indian-green);
+            border-top: 2px solid var(--saffron);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scheme-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--saffron), white, var(--indian-green));
+        }
+
+        .scheme-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .scheme-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .scheme-icon {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--indian-green), var(--saffron));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            margin-right: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .scheme-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--indian-green);
+            margin: 0;
+        }
+
+        .scheme-amount {
+            background: linear-gradient(135deg, #E8F5E8, #fff8dc);
+            color: var(--indian-green);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin: 10px 0;
+            border: 1px solid var(--saffron);
+        }
+
+        .scheme-desc {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .scheme-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .scheme-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--indian-green), #2E7D32);
+            color: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--indian-green);
+            border: 2px solid var(--saffron);
+        }
+
+        .btn-secondary:hover {
+            background: var(--saffron);
+            color: white;
+            text-decoration: none;
+        }
+
+        .highlight-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            color: white;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .notifications-sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .schemes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .site-title {
+                font-size: 2rem;
+            }
+            
+            .header-controls {
+                position: static;
+                margin-bottom: 20px;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .login-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .scheme-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .scheme-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .logo-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="schemes-page">
+        <div class="indian-pattern"></div>
+        
+        <div class="main-container">
+            <div class="page-header">
+                <div class="language-selector">
+                    <button class="lang-btn active" onclick="switchLanguage('en', this)">English</button>
+                    <button class="lang-btn" onclick="switchLanguage('hi', this)">हिंदी</button>
+                    <!-- <button class="lang-btn" onclick="switchLanguage('or', this)">ଓଡ଼ିଆ</button> -->
+                </div>
+
+                <div class="header-controls">
+                    <a href="/login" class="login-btn">Login</a>
+                </div>
+                
+                <div class="logo-section">
+                    <div class="logo">🌾</div>
+                    <div class="site-title">Krushi Sakha</div>
+                </div>
+
+                <p>Empowering Indian Agriculture with Digital Solutions & Government Support</p>
+            </div>
+
+            <div class="content-layout">
+                <div class="image-slider-section">
+                    <h3 class="slider-title">Indian Agriculture Gallery</h3>
+                    <div class="image-slider">
+                        <div class="slider-container" id="sliderContainer">
+                            <div class="slide">
+                                <img src="https://static.investindia.gov.in/s3fs-public/2020-01/shutterstock_1116673256.jpg" alt="Modern Farming">
+                                <div class="slide-overlay">
+                                    <div class="slide-title">Modern Farming Technology</div>
+                                    <p>New era of agriculture with technology</p>
+                                </div>
+                            </div>
+                            
+                            <div class="slide">
+                                <img src="https://i0.wp.com/www.newdelhitimes.com/wp-content/uploads/2022/04/1595615199_shutterstock_497587918.gif?fit=900%2C500&ssl=1" alt="Traditional Farmers">
+                                <div class="slide-overlay">
+                                    <div class="slide-title">Traditional Farmers</div>
+                                    <p>Strong roots of Indian agriculture</p>
+                                </div>
+                            </div>
+
+                            <div class="slide">
+                                <img src="https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?q=80&w=687&auto=format&fit=crop" alt="Green Revolution">
+                                <div class="slide-overlay">
+                                    <div class="slide-title">Green Revolution</div>
+                                    <p>Future of sustainable agriculture</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slider-dots">
+                        <span class="dot active" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                    </div>
+                </div>
+
+                <div class="notifications-sidebar">
+                    <div class="notifications-header">
+                        <div class="notifications-icon">📢</div>
+                        <h3 class="notifications-title">Latest Updates</h3>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-date">
+                            <div>22</div>
+                            <div style="font-size: 0.7rem;">Aug</div>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">
+                                PM-KISAN Application Open
+                                <span class="new-badge">New</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-date">
+                            <div>18</div>
+                            <div style="font-size: 0.7rem;">Aug</div>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">
+                                PMFBY Crop Insurance Registration
+                                <span class="new-badge">New</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-date">
+                            <div>31</div>
+                            <div style="font-size: 0.7rem;">Jul</div>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">KUSUM Solar Scheme Update</div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-date">
+                            <div>24</div>
+                            <div style="font-size: 0.7rem;">Jul</div>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">
+                                Organic Farming Certification
+                                <span class="new-badge">New</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-date">
+                            <div>15</div>
+                            <div style="font-size: 0.7rem;">Jul</div>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Agriculture Infrastructure Fund</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schemes-section">
+                <div class="schemes-header">
+                    <h2>Government Schemes for Farmers</h2>
+                    <p>Explore various government schemes designed to support and empower farmers</p>
+                </div>
+
+                <div class="schemes-grid">
+                    <div class="scheme-card" style="position: relative;">
+                        <div class="highlight-badge">Most Popular</div>
+                        <div class="scheme-header">
+                            <div class="scheme-icon">💰</div>
+                            <h3 class="scheme-title">PM-KISAN</h3>
+                        </div>
+                        <div class="scheme-amount">₹6,000 per year</div>
+                        <p class="scheme-desc">Direct income support to small and marginal farmers provided in three equal installments of ₹2,000 each.</p>
+                        <div class="scheme-actions">
+                            <a href="https://pmkisan.gov.in" target="_blank" class="scheme-btn btn-primary">Apply Online</a>
+                            <a href="https://pmkisan.gov.in/beneficiaryStatus.aspx" target="_blank" class="scheme-btn btn-secondary">Check Status</a>
+                        </div>
+                    </div>
+
+                    <div class="scheme-card">
+                        <div class="scheme-header">
+                            <div class="scheme-icon">🛡</div>
+                            <h3 class="scheme-title">PMFBY - Crop Insurance</h3>
+                        </div>
+                        <div class="scheme-amount">Premium: Kharif 2%, Rabi 1.5%</div>
+                        <p class="scheme-desc">Comprehensive crop insurance scheme against yield losses due to natural disasters, pests and diseases.</p>
+                        <div class="scheme-actions">
+                            <a href="https://pmfby.gov.in" target="_blank" class="scheme-btn btn-primary">Enroll Now</a>
+                            <a href="https://pmfby.gov.in/companyLoginPage" target="_blank" class="scheme-btn btn-secondary">Track Claim</a>
+                        </div>
+                    </div>
+
+                    <div class="scheme-card">
+                        <div class="scheme-header">
+                            <div class="scheme-icon">💧</div>
+                            <h3 class="scheme-title">PMKSY - Per Drop More Crop</h3>
+                        </div>
+                        <div class="scheme-amount">Up to 90% Subsidy</div>
+                        <p class="scheme-desc">Micro-irrigation scheme focused on water use efficiency through drip and sprinkler irrigation systems.</p>
+                        <div class="scheme-actions">
+                            <a href="https://pmksy.gov.in" target="_blank" class="scheme-btn btn-primary">Apply</a>
+                            <a href="https://pmksy.gov.in/MicroHomePage.aspx" target="_blank" class="scheme-btn btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+
+                    <div class="scheme-card" style="position: relative;">
+                        <div class="highlight-badge">Green Energy</div>
+                        <div class="scheme-header">
+                            <div class="scheme-icon">☀</div>
+                            <h3 class="scheme-title">KUSUM - Solar Pump</h3>
+                        </div>
+                        <div class="scheme-amount">60% Central + State Subsidy</div>
+                        <p class="scheme-desc">Solar irrigation pumps and grid-connected solar power plants. Reduce electricity bills and earn additional income.</p>
+                        <div class="scheme-actions">
+                            <a href="https://kusum.online" target="_blank" class="scheme-btn btn-primary">Register</a>
+                            <a href="https://mnre.gov.in/solar/schemes/kusum/" target="_blank" class="scheme-btn btn-secondary">Guidelines</a>
+                        </div>
+                    </div>
+
+                    <div class="scheme-card">
+                        <div class="scheme-header">
+                            <div class="scheme-icon">🧪</div>
+                            <h3 class="scheme-title">Soil Health Card Scheme</h3>
+                        </div>
+                        <div class="scheme-amount">Free Soil Testing</div>
+                        <p class="scheme-desc">Provides farmers with soil health cards to help them understand nutrient status and improve fertilizer use efficiency.</p>
+                        <div class="scheme-actions">
+                            <a href="https://soilhealth.dac.gov.in" target="_blank" class="scheme-btn btn-primary">Apply Online</a>
+                            <a href="https://soilhealth.dac.gov.in" target="_blank" class="scheme-btn btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+
+                    <div class="scheme-card">
+                        <div class="scheme-header">
+                            <div class="scheme-icon">🌱</div>
+                            <h3 class="scheme-title">PKVY - Organic Farming</h3>
+                        </div>
+                        <div class="scheme-amount">₹50,000 per hectare</div>
+                        <p class="scheme-desc">Support for organic farming through cluster approach. Includes training, inputs, certification and marketing assistance.</p>
+                        <div class="scheme-actions">
+                            <a href="https://pgsindia-ncof.gov.in" target="_blank" class="scheme-btn btn-primary">Join Cluster</a>
+                            <a href="https://www.ncof.dacnet.nic.in" target="_blank" class="scheme-btn btn-secondary">Find Center</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const sliderContainer = document.getElementById('sliderContainer');
+
+        function showSlide(index) {
+            slideIndex = index;
+            const translateX = -slideIndex * 33.333;
+            sliderContainer.style.transform = `translateX(${translateX}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === slideIndex);
+            });
+        }
+
+        function currentSlide(index) {
+            showSlide(index - 1);
+        }
+
+        function nextSlide() {
+            slideIndex = (slideIndex + 1) % slides.length;
+            showSlide(slideIndex);
+        }
+
+        setInterval(nextSlide, 4000);
+
+        function switchLanguage(lang, btn) {
+            const buttons = document.querySelectorAll('.lang-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if (lang === 'hi') {
+                document.querySelector('.page-header p').textContent = 'डिजिटल समाधान और सरकारी सहायता के साथ भारतीय कृषि को सशक्त बनाना';
+                document.querySelector('.slider-title').textContent = 'भारतीय कृषि की तस्वीरें';
+                document.querySelector('.notifications-title').textContent = 'नवीनतम सूचनाएं';
+                document.querySelector('.schemes-header h2').textContent = 'किसानों के लिए सरकारी योजनाएं';
+                document.querySelector('.schemes-header p').textContent = 'किसानों के समर्थन और सशक्तिकरण के लिए डिज़ाइन की गई विभिन्न सरकारी योजनाओं का अन्वेषण करें';
+
+                const slideTitles = ['आधुनिक कृषि तकनीक', 'पारंपरिक किसान', 'हरित क्रांति'];
+                const slideDescs = ['प्रौद्योगिकी के साथ कृषि का नया युग', 'भारतीय कृषि की मजबूत जड़ें', 'सतत कृषि का भविष्य'];
+                document.querySelectorAll('.slide-title').forEach((el, i) => el.textContent = slideTitles[i]);
+                document.querySelectorAll('.slide-overlay p').forEach((el, i) => el.textContent = slideDescs[i]);
+
+                const notificationTitles = [
+                    'पीएम-किसान आवेदन खुला',
+                    'पीएमएफबीवाई फसल बीमा पंजीकरण',
+                    'कुसुम सौर योजना अपडेट',
+                    'जैविक खेती प्रमाणन',
+                    'कृषि अवसंरचना कोष'
+                ];
+                document.querySelectorAll('.notification-title').forEach((el, i) => {
+                    let badge = el.querySelector('.new-badge');
+                    let badgeHTML = badge ? badge.outerHTML : '';
+                    el.innerHTML = notificationTitles[i] + (badgeHTML ? ' ' + badgeHTML : '');
+                });
+
+                const schemeTitles = [
+                    'पीएम-किसान',
+                    'पीएमएफबीवाई - फसल बीमा',
+                    'पीएमकेएसवाई - प्रति बूंद अधिक फसल',
+                    'कुसुम - सौर पंप',
+                    'मृदा स्वास्थ्य कार्ड योजना',
+                    'पीकेवीवाई - जैविक खेती'
+                ];
+                const schemeAmounts = [
+                    '₹6,000 प्रति वर्ष',
+                    'प्रिमियम: खरीफ 2%, रबी 1.5%',
+                    '90% तक सब्सिडी',
+                    '60% केंद्र + राज्य सब्सिडी',
+                    'मुफ्त मृदा परीक्षण',
+                    '₹50,000 प्रति हेक्टेयर'
+                ];
+                const schemeDescs = [
+                    'छोटे और सीमांत किसानों को तीन समान किस्तों में ₹2,000 की प्रत्यक्ष आय सहायता।',
+                    'प्राकृतिक आपदाओं, कीट और रोगों के कारण फसल हानि के खिलाफ व्यापक फसल बीमा योजना।',
+                    'ड्रिप और स्प्रिंकलर सिंचाई प्रणालियों के माध्यम से जल उपयोग दक्षता पर केंद्रित सूक्ष्म सिंचाई योजना।',
+                    'सौर सिंचाई पंप और ग्रिड से जुड़े सौर पावर प्लांट। बिजली बिल कम करें और अतिरिक्त आय अर्जित करें।',
+                    'किसानों को मृदा स्वास्थ्य कार्ड प्रदान करता है ताकि वे पोषक तत्व स्थिति समझ सकें और उर्वरक उपयोग दक्षता बढ़ा सकें।',
+                    'क्लस्टर दृष्टिकोण के माध्यम से जैविक खेती के लिए समर्थन। प्रशिक्षण, इनपुट, प्रमाणन और विपणन सहायता शामिल।'
+                ];
+                const schemeBtnPrimary = ['ऑनलाइन आवेदन करें', 'अभी नामांकन करें', 'आवेदन करें', 'पंजीकरण करें', 'ऑनलाइन आवेदन करें', 'क्लस्टर में शामिल हों'];
+                const schemeBtnSecondary = ['स्थिति जांचें', 'दावा ट्रैक करें', 'अधिक जानें', 'निर्देश', 'अधिक जानें', 'केंद्र खोजें'];
+
+                const schemeCards = document.querySelectorAll('.scheme-card');
+                schemeCards.forEach((card, i) => {
+                    card.querySelector('.scheme-title').textContent = schemeTitles[i];
+                    card.querySelector('.scheme-amount').textContent = schemeAmounts[i];
+                    card.querySelector('.scheme-desc').textContent = schemeDescs[i];
+                    const btns = card.querySelectorAll('.scheme-btn');
+                    if (btns.length >= 2) {
+                        btns[0].textContent = schemeBtnPrimary[i];
+                        btns[1].textContent = schemeBtnSecondary[i];
+                    }
+                });
+
+            } else if (lang === 'or') {
+                document.querySelector('.page-header p').textContent = 'ଡିଜିଟାଲ ସମାଧାନ ଏବଂ ସରକାରୀ ସହଯୋଗ ସହିତ ଭାରତୀୟ କୃଷିକୁ ସଶକ୍ତ କରିବା';
+                document.querySelector('.slider-title').textContent = 'ଭାରତୀୟ କୃଷି ଗ୍ୟାଲେରୀ';
+                document.querySelector('.notifications-title').textContent = 'ସର୍ବଶେଷ ସୂଚନା';
+                document.querySelector('.schemes-header h2').textContent = 'କୃଷକଙ୍କ ପାଇଁ ସରକାରୀ ଯୋଜନାଗୁଡିକ';
+                document.querySelector('.schemes-header p').textContent = 'କୃଷକଙ୍କ ସମର୍ଥନ ଏବଂ ସଶକ୍ତିକରଣ ପାଇଁ ଡିଜାଇନ୍ କରାଯାଇଥିବା ବିଭିନ୍ନ ସରକାରୀ ଯୋଜନାଗୁଡିକୁ ଅନ୍ୱେଷଣ କରନ୍ତୁ';
+
+                const slideTitles = ['ଆଧୁନିକ କୃଷି ପ୍ରଯୁକ୍ତି', 'ପାରମ୍ପରିକ କୃଷକ', 'ସବୁଜ ବିପ୍ଳବ'];
+                const slideDescs = ['ପ୍ରଯୁକ୍ତି ସହିତ କୃଷିର ନୂତନ ଯୁଗ', 'ଭାରତୀୟ କୃଷିର ଦୃଢ ମୂଳ', 'ସସ୍ଥାୟୀ କୃଷିର ଭବିଷ୍ୟତ'];
+                document.querySelectorAll('.slide-title').forEach((el, i) => el.textContent = slideTitles[i]);
+                document.querySelectorAll('.slide-overlay p').forEach((el, i) => el.textContent = slideDescs[i]);
+
+                const notificationTitles = [
+                    'ପିଏମ-କିସାନ ଆବେଦନ ଖୋଲା',
+                    'ପିଏମଏଫବିୱାଇ ଫସଲ ବୀମା ପଞ୍ଜିକରଣ',
+                    'କୁସୁମ ସୌର ଯୋଜନା ଅଦ୍ୟତନ',
+                    'ଜୈବିକ କୃଷି ପ୍ରମାଣପତ୍ର',
+                    'କୃଷି ଢାଞ୍ଚା ଧନ'
+                ];
+                document.querySelectorAll('.notification-title').forEach((el, i) => {
+                    let badge = el.querySelector('.new-badge');
+                    let badgeHTML = badge ? badge.outerHTML : '';
+                    el.innerHTML = notificationTitles[i] + (badgeHTML ? ' ' + badgeHTML : '');
+                });
+
+                const schemeTitles = [
+                    'ପିଏମ-କିସାନ',
+                    'ପିଏମଏଫବିୱାଇ - ଫସଲ ବୀମା',
+                    'ପିଏମକେଏସୱାଇ - ପ୍ରତି ବୁନ୍ଦ ଅଧିକ ଫସଲ',
+                    'କୁସୁମ - ସୌର ପମ୍ପ',
+                    'ମୃଦା ସ୍ୱାସ୍ଥ୍ୟ କାର୍ଡ ଯୋଜନା',
+                    'ପିକେଭାଇ - ଜୈବିକ କୃଷି'
+                ];
+                const schemeAmounts = [
+                    '₹6,000 ପ୍ରତି ବର୍ଷ',
+                    'ପ୍ରିମିୟମ୍: ଖରିଫ 2%, ରବି 1.5%',
+                    '90% ପର୍ଯ୍ୟନ୍ତ ସବସିଡି',
+                    '60% କେନ୍ଦ୍ର + ରାଜ୍ୟ ସବସିଡି',
+                    'ମୁଫ୍ତ ମୃଦା ପରୀକ୍ଷଣ',
+                    '₹50,000 ପ୍ରତି ହେକ୍ଟେର'
+                ];
+                const schemeDescs = [
+                    'ଛୋଟ ଏବଂ ସୀମାନ୍ତ କୃଷକଙ୍କୁ ତିନି ସମାନ କିସ୍ତିରେ ₹2,000 ପ୍ରତି କିସ୍ତି ଆୟ ସହାୟତା।',
+                    'ପ୍ରାକୃତିକ ଆପଦା, କୀଟ ଏବଂ ରୋଗ ଦ୍ୱାରା ହୋଇଥିବା ଫସଲ କ୍ଷତି ପାଇଁ ବ୍ୟାପକ ଫସଲ ବୀମା ଯୋଜନା।',
+                    'ଡ୍ରିପ୍ ଏବଂ ସ୍ପ୍ରିଙ୍କଲର୍ ସିଞ୍ଚାଇ ପ୍ରଣାଳୀ ମାଧ୍ୟମରେ ଜଳ ବ୍ୟବହାର କ୍ଷମତା ବୃଦ୍ଧି ପାଇଁ ସୂକ୍ଷ୍ମ ସିଞ୍ଚାଇ ଯୋଜନା।',
+                    'ସୌର ସିଞ୍ଚାଇ ପମ୍ପ ଏବଂ ଗ୍ରିଡ୍ ସଂଯୁକ୍ତ ସୌର ଶକ୍ତି ପ୍ଲାଣ୍ଟ। ବିଦ୍ୟୁତ ବିଲ୍ କମାନ୍ତୁ ଏବଂ ଅତିରିକ୍ତ ଆୟ ଉପାର୍ଜନ କରନ୍ତୁ।',
+                    'କୃଷକଙ୍କୁ ମୃଦା ସ୍ୱାସ୍ଥ୍ୟ କାର୍ଡ ପ୍ରଦାନ କରେ, ଯାହା ତାଙ୍କୁ ପୋଷକ ତତ୍ତ୍ୱ ସ୍ଥିତି ବୁଝିବାରେ ସାହାଯ୍ୟ କରେ ଏବଂ ଉର୍ବରକ ବ୍ୟବହାର କ୍ଷମତା ବୃଦ୍ଧି କରେ।',
+                    'କ୍ଲଷ୍ଟର୍ ପ୍ରବନ୍ଧନ ମାଧ୍ୟମରେ ଜୈବିକ କୃଷି ପାଇଁ ସହାୟତା। ପ୍ରଶିକ୍ଷଣ, ଇନପୁଟ୍, ପ୍ରମାଣପତ୍ର ଏବଂ ବିପଣନ ସହାୟତା ସମ୍ମିଳିତ।'
+                ];
+                const schemeBtnPrimary = ['ଅନଲାଇନ୍ ଆବେଦନ କରନ୍ତୁ', 'ଏନରୋଲ୍ ହେବେ', 'ଆବେଦନ କରନ୍ତୁ', 'ପଞ୍ଜିକରଣ କରନ୍ତୁ', 'ଅନଲାଇନ୍ ଆବେଦନ କରନ୍ତୁ', 'କ୍ଲଷ୍ଟର୍ ଯୋଗଦିଅନ୍ତୁ'];
+                const schemeBtnSecondary = ['ସ୍ଥିତି ଯାଞ୍ଚ କରନ୍ତୁ', 'ଦାବି ଟ୍ରାକ୍ କରନ୍ତୁ', 'ଅଧିକ ଜାଣନ୍ତୁ', 'ନିର୍ଦ୍ଦେଶାବଳୀ', 'ଅଧିକ ଜାଣନ୍ତୁ', 'କେନ୍ଦ୍ର ଖୋଜନ୍ତୁ'];
+
+                const schemeCards = document.querySelectorAll('.scheme-card');
+                schemeCards.forEach((card, i) => {
+                    card.querySelector('.scheme-title').textContent = schemeTitles[i];
+                    card.querySelector('.scheme-amount').textContent = schemeAmounts[i];
+                    card.querySelector('.scheme-desc').textContent = schemeDescs[i];
+                    const btns = card.querySelectorAll('.scheme-btn');
+                    if (btns.length >= 2) {
+                        btns[0].textContent = schemeBtnPrimary[i];
+                        btns[1].textContent = schemeBtnSecondary[i];
+                    }
+                });
+
+            } else {
+                document.querySelector('.page-header p').textContent = 'Empowering Indian Agriculture with Digital Solutions & Government Support';
+                document.querySelector('.slider-title').textContent = 'Indian Agriculture Gallery';
+                document.querySelector('.notifications-title').textContent = 'Latest Updates';
+                document.querySelector('.schemes-header h2').textContent = 'Government Schemes for Farmers';
+                document.querySelector('.schemes-header p').textContent = 'Explore various government schemes designed to support and empower farmers';
+
+                const slideTitles = ['Modern Farming Technology', 'Traditional Farmers', 'Green Revolution'];
+                const slideDescs = ['New era of agriculture with technology', 'Strong roots of Indian agriculture', 'Future of sustainable agriculture'];
+                document.querySelectorAll('.slide-title').forEach((el, i) => el.textContent = slideTitles[i]);
+                document.querySelectorAll('.slide-overlay p').forEach((el, i) => el.textContent = slideDescs[i]);
+
+                const notificationTitles = [
+                    'PM-KISAN Application Open',
+                    'PMFBY Crop Insurance Registration',
+                    'KUSUM Solar Scheme Update',
+                    'Organic Farming Certification',
+                    'Agriculture Infrastructure Fund'
+                ];
+                document.querySelectorAll('.notification-title').forEach((el, i) => {
+                    let badge = el.querySelector('.new-badge');
+                    let badgeHTML = badge ? badge.outerHTML : '';
+                    el.innerHTML = notificationTitles[i] + (badgeHTML ? ' ' + badgeHTML : '');
+                });
+
+                const schemeTitles = [
+                    'PM-KISAN',
+                    'PMFBY - Crop Insurance',
+                    'PMKSY - Per Drop More Crop',
+                    'KUSUM - Solar Pump',
+                    'Soil Health Card Scheme',
+                    'PKVY - Organic Farming'
+                ];
+                const schemeAmounts = [
+                    '₹6,000 per year',
+                    'Premium: Kharif 2%, Rabi 1.5%',
+                    'Up to 90% Subsidy',
+                    '60% Central + State Subsidy',
+                    'Free Soil Testing',
+                    '₹50,000 per hectare'
+                ];
+                const schemeDescs = [
+                    'Direct income support to small and marginal farmers provided in three equal installments of ₹2,000 each.',
+                    'Comprehensive crop insurance scheme against yield losses due to natural disasters, pests and diseases.',
+                    'Micro-irrigation scheme focused on water use efficiency through drip and sprinkler irrigation systems.',
+                    'Solar irrigation pumps and grid-connected solar power plants. Reduce electricity bills and earn additional income.',
+                    'Provides farmers with soil health cards to help them understand nutrient status and improve fertilizer use efficiency.',
+                    'Support for organic farming through cluster approach. Includes training, inputs, certification and marketing assistance.'
+                ];
+                const schemeBtnPrimary = ['Apply Online', 'Enroll Now', 'Apply', 'Register', 'Apply Online', 'Join Cluster'];
+                const schemeBtnSecondary = ['Check Status', 'Track Claim', 'Learn More', 'Guidelines', 'Learn More', 'Find Center'];
+
+                const schemeCards = document.querySelectorAll('.scheme-card');
+                schemeCards.forEach((card, i) => {
+                    card.querySelector('.scheme-title').textContent = schemeTitles[i];
+                    card.querySelector('.scheme-amount').textContent = schemeAmounts[i];
+                    card.querySelector('.scheme-desc').textContent = schemeDescs[i];
+                    const btns = card.querySelectorAll('.scheme-btn');
+                    if (btns.length >= 2) {
+                        btns[0].textContent = schemeBtnPrimary[i];
+                        btns[1].textContent = schemeBtnSecondary[i];
+                    }
+                });
+            }
+        }
+
+        document.querySelectorAll('.scheme-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        document.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.backgroundColor = '#fff8dc';
+                setTimeout(() => {
+                    this.style.backgroundColor = '';
+                }, 200);
+            });
+        });
+
+        document.querySelectorAll('.highlight-badge').forEach(badge => {
+            badge.style.animation = 'float 2s ease-in-out infinite';
+        });
+
+        document.querySelectorAll('.scheme-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,0.6);
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+    </script>
+</body>
+</html>

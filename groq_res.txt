@@ -1,0 +1,1 @@
+{"name": "Tomato___Early_blight", "cause": "Analysis pending...", "cure": "Consult an expert."}

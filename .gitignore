@@ -1,0 +1,15 @@
+.env
+env/
+venv/
+__pycache__/
+instance/
+*.db
+users.db
+*.log
+*.sqlite3
+tempCodeRunnerFile.py
+error*.txt
+run_error.txt
+*_backup*.h5
+leaf_model_fixed.h5
+leaf_model_original.h5
