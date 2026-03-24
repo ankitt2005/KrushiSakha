@@ -5,7 +5,7 @@ services:
     repo: https://github.com/ankitt2005/KrushiSakha.git # Update this if your repo URL is different
     branch: main
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    startCommand: gunicorn app:app --timeout 120
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.13  # Required for tensorflow 2.15.0
