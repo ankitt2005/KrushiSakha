@@ -567,7 +567,7 @@ def coin_history():
 
 
 
-leaf_model = keras.models.load_model("leaf_model_fixed.h5", compile=False)
+leaf_model = keras.models.load_model("leaf_model.keras", compile=False)
 label = ['Apple___Apple_scab',
  'Apple___Black_rot',
  'Apple___Cedar_apple_rust',
