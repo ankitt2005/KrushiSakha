@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: krushisakha
+    env: python
+    repo: https://github.com/ankitt2005/KrushiSakha.git # Update this if your repo URL is different
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.13  # Required for tensorflow 2.15.0
+      - key: PORT
+        value: 5000
+      - key: GROQ_API_KEY
+        sync: false  # You will enter this value directly in the Render dashboard
