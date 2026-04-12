@@ -17,8 +17,6 @@ link:  https://drive.google.com/file/d/1cSmE7VI9FDIKPGe1bxQGM0fLrig0NAfC/view?us
 
 > **"AI Copilot for Intelligent Farm Operations & Decision Execution"**
 
-[![HackNovation 2.0](https://img.shields.io/badge/HackNovation-2.0-green)](https://www.giet.edu)
-[![Team](https://img.shields.io/badge/Team-Byte%20Busters-blue)]()
 [![Problem Statement](https://img.shields.io/badge/Problem%20Statement-HK--15-orange)]()
 
 ---
