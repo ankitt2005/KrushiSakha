@@ -17,7 +17,7 @@ link:  https://drive.google.com/file/d/1cSmE7VI9FDIKPGe1bxQGM0fLrig0NAfC/view?us
 
 > **"AI Copilot for Intelligent Farm Operations & Decision Execution"**
 
-[![Problem Statement](https://img.shields.io/badge/Problem%20Statement-HK--15-orange)]()
+[![Problem Statement](https://img.shields.io/badge/Problem%20Statement-orange)]()
 
 ---
 
