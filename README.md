@@ -299,16 +299,3 @@ python setup_db.py
 
 ---
 
-## 👥 Team – Byte Busters
-
-| Name | Roll No. | Semester |
-|---|---|---|
-| Guru Prasad Palai | 24CSE102 | 4th Sem, CSE |
-| Milind Panda | 24CSE097 | 4th Sem, CSE |
-| Jashobanta Sasmal | 24CSE070 | 4th Sem, CSE |
-
-> Built for **HackNovation 2.0** — R&D Cell, GIET University, Gunupur
-
-
-
-*Made with ❤️ for India's farmers*
